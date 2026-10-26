@@ -37,10 +37,14 @@ target_link_libraries(my_app PRIVATE Lidar::UICore)
 
 界面是静态 QML 插件；应用还须链接 `LidarUICoreplugin`，并在一个 C++ 源文件包含 `<QtQml/QQmlExtensionPlugin>`，分别写 `Q_IMPORT_QML_PLUGIN(LidarUIPlugin)`。QML 使用 `import Lidar.UI`。完整最小示例见 tests/smoke.cpp。
 
-构建工具/部署工具的 QML 导入根目录，由目标的 `QT_QML_OUTPUT_DIRECTORY` 向上两级取得；不要假定上游仓库与本仓库相邻。
+构建工具/部署工具的 QML 导入根目录，由目标的 `QT_QML_MODULE_OUTPUT_DIRECTORY` 向上两级取得；不要假定上游仓库与本仓库相邻。
 
 ## 来源与许可
 
 从 [LiDAR_DataACQ](https://github.com/Lateef-ZHOU/LiDAR_DataACQ) 的模块分离提交 `94ad6f8` 提取；初始分仓保持运行逻辑，独立整理构建、验证与发布入口。
 
 自有代码采用 [MIT](LICENSE)，Copyright (c) 2026 周涛 (ZHOU TAO)。第三方依赖不随本仓库改为 MIT，参见 [依赖说明](THIRD_PARTY_NOTICES.md)。
+
+## 通用工作台
+
+`WorkbenchWindow` 接收 `devicePages` / `taskPages` 两组 `list<ModulePage>`，只装配现有页面，不创建业务后端或持有设备清单。页面须提供名称、副名称及对应状态供标签展示；分组由输入列表确定。保持原布局、等宽标签、最小宽度与常驻页面，切换不重建图窗。实际型号和任务由消费应用静态声明。

@@ -15,5 +15,10 @@ import Lidar.UI
 ModulePage { width: 800; height: 600 })QML", QUrl());
     std::unique_ptr<QObject> object(component.create());
     if (!object) { qCritical() << component.errors(); return 1; }
+    component.setData(R"QML(import QtQuick
+import Lidar.UI
+WorkbenchWindow { devicePages: []; taskPages: []; visible: false })QML", QUrl());
+    std::unique_ptr<QObject> window(component.create());
+    if (!window) { qCritical() << component.errors(); return 2; }
     return 0;
 }
