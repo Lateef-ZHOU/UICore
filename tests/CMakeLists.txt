@@ -1,0 +1,16 @@
+add_executable(module_smoke smoke.cpp)
+target_link_libraries(module_smoke PRIVATE Lidar::UICore)
+target_link_libraries(module_smoke PRIVATE LidarUICoreplugin)
+foreach(target module_smoke public_headers)
+    if(TARGET ${target})
+        if(MSVC)
+            target_compile_options(${target} PRIVATE /W4 /WX /utf-8)
+        else()
+            target_compile_options(${target} PRIVATE -Wall -Wextra -Wpedantic -Werror)
+        endif()
+    endif()
+endforeach()
+add_test(NAME module_smoke COMMAND module_smoke)
+set_tests_properties(module_smoke PROPERTIES TIMEOUT 30
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QSG_RHI_BACKEND=null"
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")
