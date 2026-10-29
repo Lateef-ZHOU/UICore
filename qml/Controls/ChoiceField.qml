@@ -14,7 +14,7 @@
 import QtQuick
 import QtQuick.Controls
 
-ComboBox {
+ChoiceBox {
     id: root
     property int value: 0
     property var tips: []

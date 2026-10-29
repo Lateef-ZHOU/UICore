@@ -39,6 +39,16 @@ target_link_libraries(my_app PRIVATE Lidar::UICore)
 
 构建工具/部署工具的 QML 导入根目录，由目标的 `QT_QML_MODULE_OUTPUT_DIRECTORY` 向上两级取得；不要假定上游仓库与本仓库相邻。
 
+## 公共下拉控件
+
+`ChoiceBox` 保留 Qt 原生的 model、currentIndex/currentValue、textRole/valueRole 和 activated 接口，适用于由控件自身持有选项的输入。`ChoiceField` 在其上保留原有 value/committed 确认规则和逐项提示，适用于由业务持值方接受或拒绝选择的输入；两者不互存第二份选择状态。
+
+弹出列表优先放在控件下方，放不下时选择空间较大的一侧；超过可用高度则在这一侧滚动，面板不覆盖选择框。位置在每次展开时按窗口坐标重算，适用于滚动侧栏。列表为空时不挂接弹出面板，不禁用控件、不产生空白弹层；重新收到候选后恢复正常选择。颜色跟随 palette，不依赖 Windows 专用样式实现。
+
+2026-10-29 Windows Qt 6.11.2 / MSVC 验证：Release 增量构建及 qmllint 通过，无编译/QML 警告。CTest 3/3 通过：原组件装配，以及 Basic、FluentWinUI3 各 9 个交互场景（QtTest 含初始化/收尾各 11 项）。覆盖上下展开、长列表滚动至末项、初始空表、空表鼠标/键盘、补入候选、展开中清空、持值方拒绝、原生选值及父容器移动后重定位；测试遇到 QML 警告即失败。上下弹出截图已查看，离屏截图只验证布局，Fluent 原生控件背景不作为离屏画质依据。仅本地修改，未重跑 Linux、未推送。
+
+证据：build/build-choice-final.log、build/test-choice-final.log、build/tests/choice-below.png、build/tests/choice-above.png。初轮发现 Qt 替换 popup 会解绑可视父项，重新接入时已恢复；首次延迟创建与 Fluent 样式计算的绑定警告已通过提前初始化解决，没有新增业务状态或延迟重试。
+
 ## 来源与许可
 
 从 [LiDAR_DataACQ](https://github.com/Lateef-ZHOU/LiDAR_DataACQ) 的模块分离提交 `94ad6f8` 提取；初始分仓保持运行逻辑，独立整理构建、验证与发布入口。
