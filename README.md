@@ -5,7 +5,7 @@
 ## 边界与依赖
 
 - Qt ≥ 6.11.2；Qt 由使用环境提供，不在仓库中打包。
-- 上游：无其他项目模块。已有同名 CMake 目标时复用；否则 FetchContent 拉取固定完整提交。
+- 上游：HandleCore 基础目标，仅复用 ResourcePhase 原类型的 Qt 元对象并注册到 Lidar.UI；不启用任何 Handle 可选模块。已有目标时复用，否则按完整提交获取。
 - 本仓库不依赖 LiDAR_DataACQ 源码、应用目录或设备型号；不包含第三方二进制。
 - 使用 Qt Quick/QML/Controls；不认识 Device、Task 或 Chart。ModulePage 只排列已有页面/分区、维护公共布局与日志，不改变子对象的 QObject 所有权。
 
@@ -58,3 +58,9 @@ target_link_libraries(my_app PRIVATE Lidar::UICore)
 ## 通用工作台
 
 `WorkbenchWindow` 接收 `devicePages` / `taskPages` 两组 `list<ModulePage>`，只装配现有页面，不创建业务后端或持有设备清单。页面须提供名称、副名称及对应状态供标签展示；分组由输入列表确定。保持原布局、等宽标签、最小宽度与常驻页面，切换不重建图窗。实际型号和任务由消费应用静态声明。
+
+## 资源状态显示
+
+设备页向标签提供只读 `deviceState` 机制引用，标签监听其 `logSource.connectionChanged(phase)` 与 `lockChanged(phase)`。仅在 Acquired / Released 回读 isOpen、isLocked、holder 并生成颜色和文案，不保存另一份业务状态。AboutToRelease 留给同步业务收尾，不提前展示已关闭；迟到的 Released 也回读当前事实。任务标签继续监听任务自身 running/runChanged。ResourcePhase 的唯一 C++ 定义在 HandleCore，本库只作 QML 登记。
+
+2026-11-02 本地验证：Windows Qt 6.11.2 Release 和 CTest 3/3 通过，Basic/Fluent 两种样式均增加资源完成事件回读测试，覆盖迟到 Released 不覆盖当前连接/锁事实。Linux 界面本轮未重测。本轮依赖提交尚未推送；本地联调通过 FetchContent 源目录覆盖供入对应 HandleCore。

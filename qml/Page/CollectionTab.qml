@@ -1,6 +1,6 @@
 // CollectionTab —— 合集栏上的一个标签：状态点 + 主名称 + 副名称，可选中。
 //
-// 选中显示底色、细边与粗体；状态点和提示直接绑定各自的设备或任务。
+// 选中显示底色、细边与粗体；设备完成事件触发回读，任务仍订阅自己的运行通知。
 // 官邸提供连接、占用和持有者信息；名称拼接及设备、任务的显示文案归本组件。
 import QtQuick
 import QtQuick.Controls
@@ -12,6 +12,7 @@ Rectangle {
     required property string subtitle
     required property string kind // device | task
     required property var statusSource // QML 官邸；绑定原业务状态，不保存另一份状态
+    readonly property var deviceState: kind === "device" ? statusSource.deviceState : null
     property bool current: false
 
     signal clicked
@@ -41,13 +42,13 @@ Rectangle {
 
         // 状态点：任务运行中任务色；设备被占用青、已连接绿、未连接灰（占用者名字在悬停提示里）。三个色取 Theme 单例。
         Rectangle {
+            id: statusDot
+            objectName: "resourceStatusDot"
             width: 6
             height: 6
             radius: 3
             anchors.verticalCenter: parent.verticalCenter
-            color: tab.kind === "task" ? (tab.statusSource.running ? Theme.task : palette.mid)
-                 : tab.statusSource.isLocked ? Theme.locked
-                 : tab.statusSource.isOpen ? Theme.open : palette.mid
+            color: tab.kind === "task" && tab.statusSource.running ? Theme.task : palette.mid
         }
 
         Column {
@@ -75,13 +76,33 @@ Rectangle {
     // **自家一个 ToolTip 实例，不走附加属性**：附加属性背后那只 ToolTip 是全局共享的，实机上
     // 气泡会赖在屏幕上不走（病根没有查清，见 ChoiceField.qml 那段）；各用各的实例之后正常。
     ToolTip {
+        id: statusTip
         delay: 400
         timeout: -1
         visible: hover.hovered
         text: tab.name + " · " + (tab.kind === "task"
-            ? (tab.statusSource.running ? qsTr("运行中") : qsTr("空闲"))
-            : tab.subtitle + " · " + (tab.statusSource.isLocked
-                ? qsTr("被「%1」占用").arg(tab.statusSource.holder)
-                : tab.statusSource.isOpen ? qsTr("空闲") : qsTr("未连接")))
+            ? (tab.statusSource.running ? qsTr("运行中") : qsTr("空闲")) : tab.subtitle)
+    }
+    // 只改显示结果，完成阶段同时回读连接和锁；不把事件参数另存为状态。
+    function refreshDeviceStatus(): void {
+        if (!deviceState) return
+        statusDot.color = deviceState.isLocked ? Theme.locked : deviceState.isOpen ? Theme.open : palette.mid
+        statusTip.text = name + " · " + subtitle + " · " + (deviceState.isLocked
+            ? qsTr("被「%1」占用").arg(deviceState.holder) : deviceState.isOpen ? qsTr("空闲") : qsTr("未连接"))
+    }
+    Component.onCompleted: refreshDeviceStatus()
+    Connections {
+        target: tab.deviceState ? tab.deviceState.logSource : null
+        function onConnectionChanged(phase): void {
+            if (phase === ResourcePhase.Acquired || phase === ResourcePhase.Released)
+                tab.refreshDeviceStatus()
+        }
+    }
+    Connections {
+        target: tab.deviceState
+        function onLockChanged(phase): void {
+            if (phase === ResourcePhase.Acquired || phase === ResourcePhase.Released)
+                tab.refreshDeviceStatus()
+        }
     }
 }

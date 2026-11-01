@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.28)
 project(LidarUICore LANGUAGES CXX)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt6 6.11.2 REQUIRED COMPONENTS Quick Qml)
+include(cmake/Dependencies.cmake)
 file(GLOB_RECURSE views CONFIGURE_DEPENDS RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}" "qml/*.qml")
 foreach(view IN LISTS views)
     get_filename_component(name "${view}" NAME)
@@ -10,10 +11,11 @@ endforeach()
 set_source_files_properties(qml/Controls/Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 qt_add_qml_module(LidarUICore STATIC URI Lidar.UI VERSION 1.0
     CLASS_NAME LidarUIPlugin RESOURCE_PREFIX /qt/qml
-    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Lidar/UI" QML_FILES ${views})
+    OUTPUT_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/Lidar/UI" QML_FILES ${views}
+    SOURCES ResourcePhaseQml.h)
 add_library(Lidar::UICore ALIAS LidarUICore)
 target_compile_features(LidarUICore PUBLIC cxx_std_20)
-target_link_libraries(LidarUICore PUBLIC Qt6::Quick)
+target_link_libraries(LidarUICore PUBLIC Qt6::Quick Lidar::HandleCore)
 target_compile_definitions(LidarUICore PUBLIC QT_NO_KEYWORDS)
 
 if(MSVC)
