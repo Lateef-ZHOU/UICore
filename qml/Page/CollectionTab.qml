@@ -86,9 +86,11 @@ Rectangle {
     // 只改显示结果，完成阶段同时回读连接和锁；不把事件参数另存为状态。
     function refreshDeviceStatus(): void {
         if (!deviceState) return
-        statusDot.color = deviceState.isLocked ? Theme.locked : deviceState.isOpen ? Theme.open : palette.mid
-        statusTip.text = name + " · " + subtitle + " · " + (deviceState.isLocked
-            ? qsTr("被「%1」占用").arg(deviceState.holder) : deviceState.isOpen ? qsTr("空闲") : qsTr("未连接"))
+        const holder = deviceState.holder
+        const occupied = holder !== undefined && holder !== null
+        statusDot.color = occupied ? Theme.locked : deviceState.isOpen ? Theme.open : palette.mid
+        statusTip.text = name + " · " + subtitle + " · " + (occupied
+            ? qsTr("被「%1」占用").arg(holder) : deviceState.isOpen ? qsTr("空闲") : qsTr("未连接"))
     }
     Component.onCompleted: refreshDeviceStatus()
     Connections {

@@ -71,3 +71,9 @@ target_link_libraries(my_app PRIVATE Lidar::UICore)
 ## 2026-11-04：设备日志直接接线（用户定）
 
 CollectionTab 直接监听 deviceState 的 connectionChanged，与 lockChanged 一样从具体设备接收；不再读取 deviceState.logSource。LogSection/Rail 的 logSource 是日志组件实际输入，仍保留，不与设备的冗余自引用属性混淆。 本轮仅本地整理，未推送；Windows 集成验证记录见主程序维护操作。
+
+## 2026-11-04：设备身份与占用查询（用户定）
+
+设备标签只回读 holder 空值或字符串及 isOpen；不再读取 isLocked，空名称仍表示占用，连接和锁完成阶段通知保持。
+
+本轮仅本地整理；集成验证记录见主程序 docs/maintenance/validation.md，不推送。

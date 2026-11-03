@@ -11,8 +11,7 @@ TestCase {
     QtObject {
         id: device
         property bool isOpen: false
-        property bool isLocked: false
-        property string holder: ""
+        property var holder: undefined
         signal connectionChanged(int phase)
         signal lockChanged(int phase)
     }
@@ -36,7 +35,6 @@ TestCase {
         compare(dot.color, offline)
         device.connectionChanged(ResourcePhase.Acquired)
         compare(dot.color, Theme.open)
-        device.isLocked = true
         device.holder = "任务"
         device.lockChanged(ResourcePhase.AboutToAcquire)
         compare(dot.color, Theme.open)
@@ -45,7 +43,10 @@ TestCase {
         // 迟到的旧连接 Released 不能覆盖目前的连接/锁事实。
         device.connectionChanged(ResourcePhase.Released)
         compare(dot.color, Theme.locked)
-        device.isLocked = false
+        device.holder = ""
+        device.lockChanged(ResourcePhase.Acquired)
+        compare(dot.color, Theme.locked) // 空名称仍然是占用。
+        device.holder = undefined
         device.lockChanged(ResourcePhase.Released)
         compare(dot.color, Theme.open)
         device.isOpen = false
