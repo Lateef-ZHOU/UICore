@@ -9,15 +9,11 @@ TestCase {
     width: 400
     height: 100
     QtObject {
-        id: handle
-        signal connectionChanged(int phase)
-    }
-    QtObject {
         id: device
         property bool isOpen: false
         property bool isLocked: false
         property string holder: ""
-        readonly property QtObject logSource: handle
+        signal connectionChanged(int phase)
         signal lockChanged(int phase)
     }
     QtObject {
@@ -36,9 +32,9 @@ TestCase {
         verify(dot !== null)
         const offline = dot.color
         device.isOpen = true
-        handle.connectionChanged(ResourcePhase.AboutToAcquire)
+        device.connectionChanged(ResourcePhase.AboutToAcquire)
         compare(dot.color, offline)
-        handle.connectionChanged(ResourcePhase.Acquired)
+        device.connectionChanged(ResourcePhase.Acquired)
         compare(dot.color, Theme.open)
         device.isLocked = true
         device.holder = "任务"
@@ -47,15 +43,15 @@ TestCase {
         device.lockChanged(ResourcePhase.Acquired)
         compare(dot.color, Theme.locked)
         // 迟到的旧连接 Released 不能覆盖目前的连接/锁事实。
-        handle.connectionChanged(ResourcePhase.Released)
+        device.connectionChanged(ResourcePhase.Released)
         compare(dot.color, Theme.locked)
         device.isLocked = false
         device.lockChanged(ResourcePhase.Released)
         compare(dot.color, Theme.open)
         device.isOpen = false
-        handle.connectionChanged(ResourcePhase.AboutToRelease)
+        device.connectionChanged(ResourcePhase.AboutToRelease)
         compare(dot.color, Theme.open)
-        handle.connectionChanged(ResourcePhase.Released)
+        device.connectionChanged(ResourcePhase.Released)
         compare(dot.color, offline)
     }
 }

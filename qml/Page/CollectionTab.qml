@@ -92,7 +92,7 @@ Rectangle {
     }
     Component.onCompleted: refreshDeviceStatus()
     Connections {
-        target: tab.deviceState ? tab.deviceState.logSource : null
+        target: tab.deviceState ? tab.deviceState : null
         function onConnectionChanged(phase): void {
             if (phase === ResourcePhase.Acquired || phase === ResourcePhase.Released)
                 tab.refreshDeviceStatus()
