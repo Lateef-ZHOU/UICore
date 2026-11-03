@@ -61,6 +61,9 @@ target_link_libraries(my_app PRIVATE Lidar::UICore)
 
 ## 资源状态显示
 
-设备页向标签提供只读 `deviceState` 机制引用，标签监听其 `logSource.connectionChanged(phase)` 与 `lockChanged(phase)`。仅在 Acquired / Released 回读 isOpen、isLocked、holder 并生成颜色和文案，不保存另一份业务状态。AboutToRelease 留给同步业务收尾，不提前展示已关闭；迟到的 Released 也回读当前事实。任务标签继续监听任务自身 running/runChanged。ResourcePhase 的唯一 C++ 定义在 HandleCore，本库只作 QML 登记。
+设备页向标签提供只读 `deviceState` 机制引用，标签监听其 `logSource.connectionChanged(phase)` 与 `lockChanged(phase)`。仅在 Acquired / Released 回读 isOpen、isLocked、holder 并生成颜色和文案，不保存另一份业务状态。AboutToRelease 留给同步业务收尾，不提前展示已关闭；迟到的 Released 也回读当前事实。任务标签继续监听任务自身 running/runChanged。ResourcePhase 的唯一 C++ 定义及 Qt 元对象登记位于 HandleCore 的 HandleBase.h，本库通过 ResourcePhaseQml.h 只作 QML 登记，不复制枚举或元对象。
 
 2026-11-02 本地验证：Windows Qt 6.11.2 Release 和 CTest 3/3 通过，Basic/Fluent 两种样式均增加资源完成事件回读测试，覆盖迟到 Released 不覆盖当前连接/锁事实。Linux 界面本轮未重测。本轮依赖提交尚未推送；本地联调通过 FetchContent 源目录覆盖供入对应 HandleCore。
+
+
+2026-11-03 用户定：枚举定义合入 HandleBase.h 后，QML 登记头同步改为包含该头；固定 HandleCore 753f884cd2644ac423e1feb4004bdcb14b233ad9，本地验证通过源目录覆盖接入未推送提交。Windows/MSVC/Qt 6.11.2 Release 构建及 CTest 3/3（1.88 秒）通过，涵盖 QML 枚举登记、完成阶段状态回读和 Basic/Fluent 控件测试。证据 build-phase-header/{configure,build,test}.log。未测 Linux、ARM 或硬件，未推送。

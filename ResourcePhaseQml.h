@@ -1,5 +1,5 @@
 #pragma once
-#include <ResourcePhase.h>
+#include <HandleBase.h>
 #include <QtQml/qqmlregistration.h>
 
 // 仅登记 HandleCore 的原枚举，不复制枚举或持有资源状态。
