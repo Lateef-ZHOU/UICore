@@ -3,6 +3,7 @@ import QtQuick
 
 // 表单的视觉规格；业务页面选择布局，参数与状态不进入本对象。
 QtObject {
+    readonly property int compactInfoLabelWidth: 40
     readonly property int labelWidth: 120
     readonly property int wideLabelWidth: 160
     readonly property int fieldColumnWidth: 110

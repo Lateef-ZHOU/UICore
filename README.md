@@ -101,7 +101,18 @@ Windows Release 独立构建通过，CTest 3/3 通过，包含 Basic/Fluent 两�
 - `FormStyle` 统一标签宽度（普通 120 / 宽标签 160）、行距 6、列距 8、标题到读数间距 2。业务页用 `FieldRow.wideLabel` 选择宽标签，不再重复写尺寸。
 - `FieldStrip.Col` 默认等权重；复合输入列用 `weight` 分配相对宽度。
 - `ReadoutRow` 等宽排列 `Readout`，后者只接收 `caption` 和格式化后的 `text`，使用普通字重、Consolas 13 pt。不持有设备数据。
-- `FormLabel` 统一单行省略和悬停全文；段落说明仍由调用方明确换行。`DoubleButtonRow` 可为两侧动作分别提供提示文字。
+- `FormLabel` 统一单行省略和悬停全文；段落说明使用 HintText 统一换行。`DoubleButtonRow` 可为两侧动作分别提供提示文字。
 - 型号参数、回报转换、输入草稿和状态仍由官邸管理；方向键、脉宽更新按钮及明确的组间留白不收成通用业务框架。
 
 验证：独立 Windows Release 构建、CTest 3/3 通过，覆盖 Basic/Fluent 的 382/480 像素表单对齐、五列读数边界及长文字省略。
+
+
+## 说明、信息行与连接布局（2026-11-05）
+
+- `HintText`：浅色 9 pt 段落说明，按可用宽度换行，不以整段自然宽度撑开侧栏。
+- `Subheading`：小标题字体及长文处理；外侧组间距由调用方指定。
+- `ReadoutValue`：只接收格式化文字，统一普通字重的 Consolas 13 pt；Readout 内部复用，已有标题列可单独使用。
+- `InfoRow`：caption/text 信息行，长值省略并悬停全文。compact 使用 40 像素名称列和 12 像素字体，普通档沿用表单名称列和应用字体。
+- `ConnectionSection`：继承 Section，label 与默认 fields 构成选择行，两个必填 Action 构成等宽按钮行；actionTopMargin 仅保留既定组间留白。调用方持有设备、选择值及全部连接/日志业务，组件不反向查询官邸。
+
+Windows Release 独立构建及 CTest 3/3 通过，Basic/Fluent 均覆盖连接布局、外部 Action、信息行宽度及段落换行。证据 build-labels/layout-cleanup-{build,test}.log；未推送。

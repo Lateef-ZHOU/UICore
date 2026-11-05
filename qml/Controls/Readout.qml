@@ -15,11 +15,7 @@ ColumnLayout {
         id: heading
         color: palette.placeholderText
     }
-    FormLabel {
+    ReadoutValue {
         id: result
-        text: "—"
-        font.family: "Consolas"
-        font.pointSize: 13
-        font.bold: false
     }
 }
