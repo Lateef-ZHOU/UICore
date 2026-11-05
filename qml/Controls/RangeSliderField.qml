@@ -16,7 +16,7 @@ RowLayout {
     property int to: 1
     signal committed(int newLower, int newUpper)
 
-    spacing: 6
+    spacing: FormStyle.columnSpacing
     Layout.fillWidth: true
 
     function held() {

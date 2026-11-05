@@ -46,11 +46,11 @@ Rectangle {
         ColumnLayout {
             id: body
             Layout.fillWidth: true
-            Layout.leftMargin: 8
-            Layout.rightMargin: 8
-            Layout.bottomMargin: 8
-            Layout.topMargin: 2
-            spacing: 6
+            Layout.leftMargin: FormStyle.sectionPadding
+            Layout.rightMargin: FormStyle.sectionPadding
+            Layout.bottomMargin: FormStyle.sectionPadding
+            Layout.topMargin: FormStyle.captionSpacing
+            spacing: FormStyle.rowSpacing
             visible: root.expanded
         }
     }

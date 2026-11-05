@@ -6,19 +6,25 @@ RowLayout {
     id: root
     required property Action firstAction
     required property Action secondAction
+    property string firstToolTip: ""
+    property string secondToolTip: ""
 
     Layout.fillWidth: true
     uniformCellSizes: true
-    spacing: 8
+    spacing: FormStyle.columnSpacing
 
     Button {
         Layout.fillWidth: true
         action: root.firstAction
         objectName: action.objectName
+        ToolTip.text: root.firstToolTip
+        ToolTip.visible: hovered && root.firstToolTip !== ""
     }
     Button {
         Layout.fillWidth: true
         action: root.secondAction
         objectName: action.objectName
+        ToolTip.text: root.secondToolTip
+        ToolTip.visible: hovered && root.secondToolTip !== ""
     }
 }

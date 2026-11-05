@@ -32,7 +32,7 @@ RowLayout {
     property int decimals: 0
     signal committed(real newValue)
 
-    spacing: 6
+    spacing: FormStyle.columnSpacing
     Layout.fillWidth: true
 
     function snap(v) {

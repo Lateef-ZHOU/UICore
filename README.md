@@ -95,3 +95,13 @@ DoubleButtonRow {
 ```
 
 Windows Release 独立构建通过，CTest 3/3 通过，包含 Basic/Fluent 两种主题下长短文案、400/560 像素行宽、等宽/间距、动作调用和单侧禁用验证。证据：`build-labels/build-double-button.log`、`build-labels/test-double-button.log`。仅本地提交，未推送。
+
+## 表单与读数（2026-11-05）
+
+- `FormStyle` 统一标签宽度（普通 120 / 宽标签 160）、行距 6、列距 8、标题到读数间距 2。业务页用 `FieldRow.wideLabel` 选择宽标签，不再重复写尺寸。
+- `FieldStrip.Col` 默认等权重；复合输入列用 `weight` 分配相对宽度。
+- `ReadoutRow` 等宽排列 `Readout`，后者只接收 `caption` 和格式化后的 `text`，使用普通字重、Consolas 13 pt。不持有设备数据。
+- `FormLabel` 统一单行省略和悬停全文；段落说明仍由调用方明确换行。`DoubleButtonRow` 可为两侧动作分别提供提示文字。
+- 型号参数、回报转换、输入草稿和状态仍由官邸管理；方向键、脉宽更新按钮及明确的组间留白不收成通用业务框架。
+
+验证：独立 Windows Release 构建、CTest 3/3 通过，覆盖 Basic/Fluent 的 382/480 像素表单对齐、五列读数边界及长文字省略。

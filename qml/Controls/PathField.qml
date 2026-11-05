@@ -31,7 +31,7 @@ RowLayout {
     signal committed(url newValue)
     readonly property bool chosen: root.text !== "" // 选过了（text 空 = 还没选过）
 
-    spacing: 6
+    spacing: FormStyle.columnSpacing
     Layout.fillWidth: true
 
     Label {
