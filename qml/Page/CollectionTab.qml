@@ -80,10 +80,8 @@ Rectangle {
 
     // **自家一个 ToolTip 实例，不走附加属性**：附加属性背后那只 ToolTip 是全局共享的，实机上
     // 气泡会赖在屏幕上不走（病根没有查清，见 ChoiceField.qml 那段）；各用各的实例之后正常。
-    ToolTip {
+    FormToolTip {
         id: statusTip
-        delay: 400
-        timeout: -1
         visible: hover.hovered
         text: tab.name + " · " + tab.subtitle + (tab.kind === "task"
             ? " · " + (tab.statusSource.running ? qsTr("运行中") : qsTr("空闲")) : "")

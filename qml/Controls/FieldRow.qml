@@ -5,6 +5,7 @@ import QtQuick.Layouts
 RowLayout {
     id: root
     property alias label: name.text
+    property alias labelColor: name.color
     property bool wideLabel: false
     readonly property int labelWidth: wideLabel ? FormStyle.wideLabelWidth : FormStyle.labelWidth
     default property alias field: holder.data

@@ -54,9 +54,7 @@ RowLayout {
             elideWidth: Math.max(0, display.width - display.leftPadding - display.rightPadding)
         }
         HoverHandler { id: hover }
-        ToolTip {
-            delay: 400
-            timeout: -1
+        FormToolTip {
             visible: hover.hovered && pathText.elidedText !== pathText.text
             text: pathText.text
         }

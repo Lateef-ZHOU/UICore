@@ -18,9 +18,7 @@ RowLayout {
         Layout.fillWidth: true
         action: root.firstAction
         objectName: action.objectName
-        ToolTip {
-            delay: 400
-            timeout: -1
+        FormToolTip {
             text: root.firstToolTip
             visible: firstButton.hovered && text !== ""
         }
@@ -30,9 +28,7 @@ RowLayout {
         Layout.fillWidth: true
         action: root.secondAction
         objectName: action.objectName
-        ToolTip {
-            delay: 400
-            timeout: -1
+        FormToolTip {
             text: root.secondToolTip
             visible: secondButton.hovered && text !== ""
         }

@@ -33,9 +33,7 @@ ChoiceBox {
     // 各用各的实例、`timeout: -1`（只听 visible 这一条）之后正常。**病根没有查清**：共享那只在离屏
     // 测试里复现不出这个症状，也不是「绑定被写断」（Qt 自己的写入弄不断绑定，见 ValueField.qml 头注）。
     // CollectionTab.qml / PathField.qml 的气泡同此。
-    ToolTip {
-        delay: 400
-        timeout: -1
+    FormToolTip {
         visible: root.hovered && text !== ""
         text: (root.currentIndex >= 0 && root.currentIndex < root.tips.length)
               ? root.tips[root.currentIndex] : ""

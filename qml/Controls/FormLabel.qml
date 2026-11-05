@@ -13,9 +13,7 @@ Label {
     elide: multiline ? Text.ElideNone : Text.ElideRight
 
     HoverHandler { id: hover }
-    ToolTip {
-        delay: 400
-        timeout: -1
+    FormToolTip {
         visible: hover.hovered && root.truncated
         text: root.text
     }

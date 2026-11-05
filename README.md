@@ -164,3 +164,9 @@ DoubleButtonRow 的两颗按钮各自持有独立 ToolTip，与路径/下拉框/
 温控、激光参数及转台四角定位已接入；温控和激光的型号/SN 放首排纵向读数。动作和非易失存储含义由官邸负责。
 
 验证：Windows Release增量构建、UICore CTest 3/3、温控页面与串口专项1/1、激光QML专项1/1（128项检查）、主程序四窗装配及八秒冒烟通过；运行stderr为空。仅本地验证，未连接硬件、未推送。
+
+## 表单分隔与提示统一（2026-11-05 用户定）
+
+新增 FormSeparator 和 FormToolTip，统一表单横线、400ms悬停延时与持续显示；各使用方仍独持气泡实例并决定文字和显示条件。分隔线沿用 MenuSeparator 的主题高度与留白，不改组间距。FieldRow 增加标签颜色别名，供任务预览保留原色。
+
+验证：Windows Release 增量构建通过，UICore CTest 3/3通过（含 Basic 与 Fluent 下拉及气泡检查）；本地修改，未推送。
