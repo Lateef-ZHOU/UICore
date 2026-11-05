@@ -77,3 +77,8 @@ CollectionTab 直接监听 deviceState 的 connectionChanged，与 lockChanged �
 设备标签只回读 holder 空值或字符串及 isOpen；不再读取 isLocked，空名称仍表示占用，连接和锁完成阶段通知保持。
 
 本轮仅本地整理；集成验证记录见主程序 docs/maintenance/validation.md，不推送。
+
+
+2026-11-05 标签显示（用户定）：CollectionTab 自然宽度最多 160 个逻辑像素，工作台仍按最大自然宽度等宽分配；窄窗口允许等宽缩至 96，最小窗口宽度仍尊重业务页面要求。主副标题超长右侧省略，悬停显示完整主副标题及状态，不缓存另一份设备身份。
+
+本次验证：Windows Release 构建及现有 CTest 3/3 通过（build-labels）；主程序增量构建、八秒离屏冒烟通过，字体提示保持既有基线。未推送。

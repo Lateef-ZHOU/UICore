@@ -17,9 +17,9 @@ Rectangle {
 
     signal clicked
 
-    // 报告内容需要的自然宽度；工作台取所有标签的最大值统一分配。
+    // 自然宽度最多 160；工作台等宽分配，窄窗口可继续压缩。
     // 名称按选中时的粗体计宽，切页不改变整排尺寸。
-    implicitWidth: content.implicitWidth + 16
+    implicitWidth: Math.min(160, Math.max(nameMetrics.advanceWidth, subText.implicitWidth) + 28)
     implicitHeight: nameText.implicitHeight + subText.implicitHeight + 14
     radius: 6
     color: tab.current ? palette.base : hover.hovered ? palette.midlight : "transparent"
@@ -37,6 +37,7 @@ Rectangle {
     Row {
         id: content
         x: 8
+        width: Math.max(0, tab.width - 16)
         anchors.verticalCenter: parent.verticalCenter
         spacing: 6
 
@@ -52,18 +53,22 @@ Rectangle {
         }
 
         Column {
-            width: Math.max(nameMetrics.advanceWidth, subText.implicitWidth)
+            width: Math.max(0, content.width - statusDot.width - content.spacing)
             spacing: 1
 
             Text {
                 id: nameText
                 text: tab.name
+                width: parent.width
+                elide: Text.ElideRight
                 font.bold: tab.current
                 color: palette.windowText
             }
             Text {
                 id: subText
                 text: tab.subtitle
+                width: parent.width
+                elide: Text.ElideRight
                 font.pointSize: 9
                 color: palette.placeholderText
             }
@@ -80,8 +85,8 @@ Rectangle {
         delay: 400
         timeout: -1
         visible: hover.hovered
-        text: tab.name + " · " + (tab.kind === "task"
-            ? (tab.statusSource.running ? qsTr("运行中") : qsTr("空闲")) : tab.subtitle)
+        text: tab.name + " · " + tab.subtitle + (tab.kind === "task"
+            ? " · " + (tab.statusSource.running ? qsTr("运行中") : qsTr("空闲")) : "")
     }
     // 只改显示结果，完成阶段同时回读连接和锁；不把事件参数另存为状态。
     function refreshDeviceStatus(): void {

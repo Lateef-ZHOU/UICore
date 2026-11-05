@@ -29,11 +29,11 @@ ApplicationWindow {
     // Layout 与 Layout 之间传尺寸提示，传到窗口就断了）。实测：不写这一笔，窗口能一路压到 186 px。
     //
     // 两个来源取大：
-    //   · 标签栏排满要多宽（bar.implicitWidth —— RowLayout 的 implicit 是各标签之和）；
+    //   · 标签栏压缩到每项最小宽度后需要的宽度；
     //   · 当前所有页面里要求最高的那个（各页自报 minimumPageWidth）。
     // 再加上 ColumnLayout 四周那圈留白。**单调取 max**：页面全部常驻、从不卸载。
     property real pageMinWidth: 0
-    minimumWidth: 2 * col.anchors.margins + Math.max(bar.implicitWidth, pageMinWidth)
+    minimumWidth: 2 * col.anchors.margins + Math.max(bar.minimumBarWidth, pageMinWidth)
     // 不设 minimumHeight：右栏自己会滚，纵向压不出"吞控件"那种事。
 
     // **摆位只做一次，不能写成绑定**：x / y 若绑在 width / height 上，用户一最大化，
@@ -64,6 +64,8 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             spacing: 4
+            readonly property real minimumBarWidth: deviceLabel.implicitWidth + taskLabel.implicitWidth
+                + win.pages.length * Math.min(96, tabWidth) + 16 + (win.pages.length + 2) * spacing
 
             // children 随委托创建更新；自然宽度不依赖分配宽度，避免尺寸反馈。
             readonly property real tabWidth: {
@@ -83,7 +85,8 @@ ApplicationWindow {
                 delegate: CollectionTab {
                     required property int index
                     required property var modelData
-                    Layout.minimumWidth: bar.tabWidth
+                    Layout.minimumWidth: Math.min(96, bar.tabWidth)
+                    Layout.fillWidth: true
                     Layout.preferredWidth: bar.tabWidth
                     Layout.maximumWidth: bar.tabWidth
                     name: modelData.name
@@ -95,13 +98,13 @@ ApplicationWindow {
                 }
             }
 
-            Label { text: qsTr("设备"); color: palette.placeholderText }
+            Label { id: deviceLabel; text: qsTr("设备"); color: palette.placeholderText }
             Group { kind: "device" }
 
             Item { Layout.fillWidth: true; Layout.minimumWidth: 16 }
 
             Group { kind: "task" }
-            Label { text: qsTr("任务"); color: palette.placeholderText }
+            Label { id: taskLabel; text: qsTr("任务"); color: palette.placeholderText }
         }
 
         Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: palette.mid }
