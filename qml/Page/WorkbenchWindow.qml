@@ -64,8 +64,10 @@ ApplicationWindow {
             Layout.fillWidth: true
             Layout.fillHeight: false
             spacing: 4
-            readonly property real minimumBarWidth: deviceLabel.implicitWidth + taskLabel.implicitWidth
-                + win.pages.length * Math.min(96, tabWidth) + 16 + (win.pages.length + 2) * spacing
+            readonly property real minimumBarWidth: (deviceLabel.visible ? deviceLabel.implicitWidth : 0)
+                + (taskLabel.visible ? taskLabel.implicitWidth : 0)
+                + win.pages.length * Math.min(96, tabWidth) + groupGap.Layout.minimumWidth
+                + (win.pages.length + Number(deviceLabel.visible) + Number(taskLabel.visible)) * spacing
 
             // children 随委托创建更新；自然宽度不依赖分配宽度，避免尺寸反馈。
             readonly property real tabWidth: {
@@ -98,13 +100,27 @@ ApplicationWindow {
                 }
             }
 
-            Label { id: deviceLabel; text: qsTr("设备"); color: palette.placeholderText }
+            Label {
+                id: deviceLabel
+                visible: win.devicePages.length > 0
+                text: qsTr("设备")
+                color: palette.placeholderText
+            }
             Group { kind: "device" }
 
-            Item { Layout.fillWidth: true; Layout.minimumWidth: 16 }
+            Item {
+                id: groupGap
+                Layout.fillWidth: true
+                Layout.minimumWidth: deviceLabel.visible && taskLabel.visible ? 16 : 0
+            }
 
             Group { kind: "task" }
-            Label { id: taskLabel; text: qsTr("任务"); color: palette.placeholderText }
+            Label {
+                id: taskLabel
+                visible: win.taskPages.length > 0
+                text: qsTr("任务")
+                color: palette.placeholderText
+            }
         }
 
         Rectangle { Layout.fillWidth: true; implicitHeight: 1; color: palette.mid }

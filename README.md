@@ -128,3 +128,9 @@ Windows Release 增量构建和 CTest 3/3 通过；Basic/Fluent 覆盖 260/382/4
 SliderField 的右侧文字复用 ReadoutValue 的普通字重、Consolas 13 pt、长文字省略和悬停规则，保留紧凑宽度 46 与右对齐，不参与额外宽度拉伸。吸附、松手提交和回读值行为不变。PathField 复用 FormLabel，保留中间省略、期望宽度 1、占位色和路径选择逻辑，删除重复悬停实现。DoubleButtonRow 的提示策略本轮不改。
 
 Windows Release 增量构建与现有 CTest 3/3 通过，主程序集成构建及八秒冒烟通过。证据：build-labels/readout-path-{build,test}.log；仅本地提交，未推送。
+
+
+## 空分组标题（2026-11-05）
+
+WorkbenchWindow 按设备/任务名单是否为空显示对应组名。空组不计入最小标签栏宽度，组间16像素最小空隙仅在两组都有页面时保留；弹性空白仍保证设备左对齐、任务右对齐。页面、状态及所有权不变。
+验证：主程序 Windows Release 增量构建、桌面八秒冒烟和四窗口全页面装配检查通过，截图确认空任务组标题隐藏。未连接硬件，未推送。
