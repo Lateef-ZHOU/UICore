@@ -9,14 +9,12 @@ Section {
     default property alias fields: selector.field
     required property Action firstAction
     required property Action secondAction
-    property real actionTopMargin: 0
 
     content: [
         FieldRow {
             id: selector
         },
         DoubleButtonRow {
-            Layout.topMargin: root.actionTopMargin
             firstAction: root.firstAction
             secondAction: root.secondAction
         }

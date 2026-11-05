@@ -113,7 +113,7 @@ Windows Release 独立构建通过，CTest 3/3 通过，包含 Basic/Fluent 两�
 - `Subheading`：小标题字体及长文处理；外侧组间距由调用方指定。
 - `ReadoutValue`：只接收格式化文字，统一普通字重的 Consolas 13 pt；Readout 内部复用，已有标题列可单独使用。
 - `InfoRow`：caption/text 信息行，长值省略并悬停全文。compact 使用 40 像素名称列和 12 像素字体，普通档沿用表单名称列和应用字体。
-- `ConnectionSection`：继承 Section，label 与默认 fields 构成选择行，两个必填 Action 构成等宽按钮行；actionTopMargin 仅保留既定组间留白。调用方持有设备、选择值及全部连接/日志业务，组件不反向查询官邸。
+- `ConnectionSection`：继承 Section，label 与默认 fields 构成选择行，两个必填 Action 构成等宽按钮行；选择行与按钮行统一使用公共 FormStyle.rowSpacing，不提供局部间距覆盖入口。调用方持有设备、选择值及全部连接/日志业务，组件不反向查询官邸。
 
 Windows Release 独立构建及 CTest 3/3 通过，Basic/Fluent 均覆盖连接布局、外部 Action、信息行宽度及段落换行。证据 build-labels/layout-cleanup-{build,test}.log；未推送。
 
@@ -142,3 +142,10 @@ PathField 的路径显示改用禁用 TextField，保留随主题变化的输入
 PathField 默认从 value 转为本机路径，不展示 file:///。PathDisplay 使用 QUrl::toLocalFile 和 QDir::toNativeSeparators，正确解码中文、空格、百分号和共享路径；URL 仍是业务与对话框的唯一参数。禁用输入框、中间省略、悬停全文和浏览动作保持。
 
 验证：2026-11-05 Windows Qt 6.11.2 / MSVC 增量构建通过；UICore CTest 3/3、ChartCore nonuniform 1/1、主程序八秒桌面冒烟及四窗装配通过。装配检查覆盖三规格、三通道的18张初始风速/CNR图的内部及分段门位悬停。未连接硬件、未推送。
+
+
+### 2026-11-05 连接间距、累积默认值与径向风页面整理
+
+ConnectionSection 删除 actionTopMargin，选择行与按钮行统一使用公共行距；串口与网口不再各自调节。UICore CTest 3/3通过。
+
+主程序 Windows Release 增量构建、八秒桌面冒烟及四窗口装配检查通过；运行 stderr 为空，保留既有 CDL5/Qt 生成代码 C4702 编译警告。仅本地验证，未连接硬件、未推送。
