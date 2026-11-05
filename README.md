@@ -156,3 +156,11 @@ ConnectionSection 删除 actionTopMargin，选择行与按钮行统一使用公�
 DoubleButtonRow 的两颗按钮各自持有独立 ToolTip，与路径/下拉框/文字一致，悬停400 ms显示、移出隐藏、timeout=-1；空提示不显示。动作和启用条件仍由调用方提供。UICore CTest 3/3通过。
 
 主程序Windows Release增量构建、八秒桌面冒烟与四窗口装配检查通过，运行stderr为空。未连接硬件，仅本地提交、未推送。
+
+## 字段分类与公共布局（2026-11-05 用户定）
+
+只读项使用 Readout/ReadoutRow；仅设定项沿用 FieldStrip.Col；有回报的设定项使用 ReadoutField，按标题、回报、输入/操作纵向排列，并与 Readout 共用读数字重、长文字省略和悬停全文。ReadoutField 只提供布局与默认内容槽，不持有业务值、草稿、协议或提交动作。
+
+温控、激光参数及转台四角定位已接入；温控和激光的型号/SN 放首排纵向读数。动作和非易失存储含义由官邸负责。
+
+验证：Windows Release增量构建、UICore CTest 3/3、温控页面与串口专项1/1、激光QML专项1/1（128项检查）、主程序四窗装配及八秒冒烟通过；运行stderr为空。仅本地验证，未连接硬件、未推送。
