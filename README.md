@@ -122,3 +122,9 @@ Windows Release 独立构建及 CTest 3/3 通过，Basic/Fluent 均覆盖连接�
 FormLabel 默认仍是单行省略与悬停全文；multiline=true 按可用宽度换行，使用最小宽度 0、期望宽度 1，不以整段自然宽度撑开表单。字体和颜色沿用控件主题。HintText 复用此规则，再叠加说明文字的浅色和 9 pt；InfoRow.multiline 仅控制值列，名称列仍沿用 FormStyle。
 
 Windows Release 增量构建和 CTest 3/3 通过；Basic/Fluent 覆盖 260/382/480 像素下多行正文、信息行边界、正常字号/颜色和单行/多行切换，原有连接布局与按钮测试继续通过。证据：build-labels/multiline-{build,test}.log。未推送。
+
+## 滑块与路径复用（2026-11-05）
+
+SliderField 的右侧文字复用 ReadoutValue 的普通字重、Consolas 13 pt、长文字省略和悬停规则，保留紧凑宽度 46 与右对齐，不参与额外宽度拉伸。吸附、松手提交和回读值行为不变。PathField 复用 FormLabel，保留中间省略、期望宽度 1、占位色和路径选择逻辑，删除重复悬停实现。DoubleButtonRow 的提示策略本轮不改。
+
+Windows Release 增量构建与现有 CTest 3/3 通过，主程序集成构建及八秒冒烟通过。证据：build-labels/readout-path-{build,test}.log；仅本地提交，未推送。

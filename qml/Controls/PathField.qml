@@ -34,25 +34,14 @@ RowLayout {
     spacing: FormStyle.columnSpacing
     Layout.fillWidth: true
 
-    Label {
-        id: path
-        Layout.fillWidth: true
-        // **钉 preferredWidth**：不钉的话它的 implicitWidth 就是整条路径的文字宽，一条长路径能把所在的
-        // 容器撑宽。钉住之后宽度全由宿主分配，超出的省略，不依赖页面采用哪种布局。
+    FormLabel {
+        // 路径不以自然宽度撑开所在行，中间省略以保留盘符和末级名称。
         Layout.preferredWidth: 1
         // 纯显示量：界面这头没有人会写它，声明式绑定正合适（与输入框的 text 不是一回事）。
         text: root.chosen ? root.text : root.placeholder
         color: root.chosen ? palette.windowText : palette.placeholderText
         elide: Text.ElideMiddle
 
-        HoverHandler { id: hover }
-        // 自家一个 ToolTip 实例，不走附加属性（为什么见 ChoiceField.qml 那段）。只在真被省略时才出。
-        ToolTip {
-            delay: 400
-            timeout: -1
-            visible: hover.hovered && path.truncated
-            text: path.text
-        }
     }
     Button {
         text: qsTr("浏览…")

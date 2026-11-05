@@ -56,10 +56,10 @@ RowLayout {
 
     onValueChanged: if (!bar.pressed) bar.value = root.value
 
-    Label {
+    ReadoutValue {
         text: root.snap(bar.value).toFixed(root.decimals)
         horizontalAlignment: Text.AlignRight
+        Layout.fillWidth: false
         Layout.preferredWidth: 46
-        font.family: "Consolas" // 纯数字才用等宽：Consolas 没有中文字形，一掺中文 Qt 就去回退表里捞，捞上来的往往是宋体
     }
 }
