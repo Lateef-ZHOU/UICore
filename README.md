@@ -116,3 +116,9 @@ Windows Release 独立构建通过，CTest 3/3 通过，包含 Basic/Fluent 两�
 - `ConnectionSection`：继承 Section，label 与默认 fields 构成选择行，两个必填 Action 构成等宽按钮行；actionTopMargin 仅保留既定组间留白。调用方持有设备、选择值及全部连接/日志业务，组件不反向查询官邸。
 
 Windows Release 独立构建及 CTest 3/3 通过，Basic/Fluent 均覆盖连接布局、外部 Action、信息行宽度及段落换行。证据 build-labels/layout-cleanup-{build,test}.log；未推送。
+
+## 多行文字（2026-11-05）
+
+FormLabel 默认仍是单行省略与悬停全文；multiline=true 按可用宽度换行，使用最小宽度 0、期望宽度 1，不以整段自然宽度撑开表单。字体和颜色沿用控件主题。HintText 复用此规则，再叠加说明文字的浅色和 9 pt；InfoRow.multiline 仅控制值列，名称列仍沿用 FormStyle。
+
+Windows Release 增量构建和 CTest 3/3 通过；Basic/Fluent 覆盖 260/382/480 像素下多行正文、信息行边界、正常字号/颜色和单行/多行切换，原有连接布局与按钮测试继续通过。证据：build-labels/multiline-{build,test}.log。未推送。

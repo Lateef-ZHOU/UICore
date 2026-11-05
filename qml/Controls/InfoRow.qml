@@ -1,11 +1,12 @@
 import QtQuick
 import QtQuick.Layouts
 
-// 单行名称和值；长值省略并悬停显示全文，格式化由调用方负责。
+// 名称和值共用表单列宽；值可选择多行，格式化由调用方负责。
 RowLayout {
     id: root
     property alias caption: heading.text
     property alias text: value.text
+    property alias multiline: value.multiline
     property bool compact: false
     Layout.fillWidth: true
     Layout.minimumWidth: 0
