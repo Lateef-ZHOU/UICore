@@ -82,3 +82,16 @@ CollectionTab 直接监听 deviceState 的 connectionChanged，与 lockChanged �
 2026-11-05 标签显示（用户定）：CollectionTab 自然宽度最多 160 个逻辑像素，工作台仍按最大自然宽度等宽分配；窄窗口允许等宽缩至 96，最小窗口宽度仍尊重业务页面要求。主副标题超长右侧省略，悬停显示完整主副标题及状态，不缓存另一份设备身份。
 
 本次验证：Windows Release 构建及现有 CTest 3/3 通过（build-labels）；主程序增量构建、八秒离屏冒烟通过，字体提示保持既有基线。未推送。
+
+## 双按钮行（2026-11-05）
+
+`DoubleButtonRow` 接收两个必填的 Qt `Action`：`firstAction` 和 `secondAction`。统一使用 8 像素间距、等宽按钮并占满所在布局行；调用方只提供文字、enabled 和 onTriggered，不另设按钮宽度或间距。不持有设备或增加业务状态。
+
+```qml
+DoubleButtonRow {
+    firstAction: Action { text: qsTr("连接"); onTriggered: device.open(port) }
+    secondAction: Action { text: qsTr("断开"); onTriggered: device.close() }
+}
+```
+
+Windows Release 独立构建通过，CTest 3/3 通过，包含 Basic/Fluent 两种主题下长短文案、400/560 像素行宽、等宽/间距、动作调用和单侧禁用验证。证据：`build-labels/build-double-button.log`、`build-labels/test-double-button.log`。仅本地提交，未推送。
