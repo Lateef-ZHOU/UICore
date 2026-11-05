@@ -14,17 +14,27 @@ RowLayout {
     spacing: FormStyle.columnSpacing
 
     Button {
+        id: firstButton
         Layout.fillWidth: true
         action: root.firstAction
         objectName: action.objectName
-        ToolTip.text: root.firstToolTip
-        ToolTip.visible: hovered && root.firstToolTip !== ""
+        ToolTip {
+            delay: 400
+            timeout: -1
+            text: root.firstToolTip
+            visible: firstButton.hovered && text !== ""
+        }
     }
     Button {
+        id: secondButton
         Layout.fillWidth: true
         action: root.secondAction
         objectName: action.objectName
-        ToolTip.text: root.secondToolTip
-        ToolTip.visible: hovered && root.secondToolTip !== ""
+        ToolTip {
+            delay: 400
+            timeout: -1
+            text: root.secondToolTip
+            visible: secondButton.hovered && text !== ""
+        }
     }
 }

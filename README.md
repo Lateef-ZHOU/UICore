@@ -149,3 +149,10 @@ PathField 默认从 value 转为本机路径，不展示 file:///。PathDisplay 
 ConnectionSection 删除 actionTopMargin，选择行与按钮行统一使用公共行距；串口与网口不再各自调节。UICore CTest 3/3通过。
 
 主程序 Windows Release 增量构建、八秒桌面冒烟及四窗口装配检查通过；运行 stderr 为空，保留既有 CDL5/Qt 生成代码 C4702 编译警告。仅本地验证，未连接硬件、未推送。
+
+
+### 2026-11-05 按钮气泡与布局复用
+
+DoubleButtonRow 的两颗按钮各自持有独立 ToolTip，与路径/下拉框/文字一致，悬停400 ms显示、移出隐藏、timeout=-1；空提示不显示。动作和启用条件仍由调用方提供。UICore CTest 3/3通过。
+
+主程序Windows Release增量构建、八秒桌面冒烟与四窗口装配检查通过，运行stderr为空。未连接硬件，仅本地提交、未推送。
