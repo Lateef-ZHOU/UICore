@@ -1,4 +1,4 @@
-// PathField —— 本机路径：一行只读显示 + 「浏览…」弹系统对话框。选文件夹还是选文件由 `folder` 定。
+// PathField —— 本机路径：禁用输入框显示 + 「浏览…」弹系统对话框。选文件夹还是选文件由 `folder` 定。
 //
 // 形制与 ValueField 族同构，读法也一样，只有 `text` 例外（它不是输入框自己的 text，见第二条）：
 //   · `value`     = 已认可的路径（**url**），持值方说了算；
@@ -34,14 +34,32 @@ RowLayout {
     spacing: FormStyle.columnSpacing
     Layout.fillWidth: true
 
-    FormLabel {
-        // 路径不以自然宽度撑开所在行，中间省略以保留盘符和末级名称。
+    Item {
+        Layout.fillWidth: true
+        Layout.minimumWidth: 0
         Layout.preferredWidth: 1
-        // 纯显示量：界面这头没有人会写它，声明式绑定正合适（与输入框的 text 不是一回事）。
-        text: root.chosen ? root.text : root.placeholder
-        color: root.chosen ? palette.windowText : palette.placeholderText
-        elide: Text.ElideMiddle
+        implicitHeight: display.implicitHeight
 
+        TextField {
+            id: display
+            anchors.fill: parent
+            enabled: false
+            text: pathText.elidedText
+        }
+        TextMetrics {
+            id: pathText
+            font: display.font
+            text: root.chosen ? root.text : root.placeholder
+            elide: Text.ElideMiddle
+            elideWidth: Math.max(0, display.width - display.leftPadding - display.rightPadding)
+        }
+        HoverHandler { id: hover }
+        ToolTip {
+            delay: 400
+            timeout: -1
+            visible: hover.hovered && pathText.elidedText !== pathText.text
+            text: pathText.text
+        }
     }
     Button {
         text: qsTr("浏览…")
