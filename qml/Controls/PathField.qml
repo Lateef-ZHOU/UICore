@@ -10,7 +10,7 @@
 //
 // **跨界面的类型是 url，不是字符串**（用户定：字符串只保证自己是字符串，不保证是路径）。对话框交出来的
 // 本来就是 url（selectedFolder / selectedFile），原样递给持值方，由 C++ 那头 `QUrl::toLocalFile()` 变成
-// QDir / QFileInfo。**界面这边不对路径做任何字符串加工**。
+// QDir / QFileInfo。显示文本由 PathDisplay 使用 QUrl 转换，保留 URL 值不变。
 // ⚠ 别再写「从 "file:///…" 里把路径抠出来」那种正则：空格与非 ASCII 字符在 url 的字符串形式里是
 // 百分号编码，抠出来的不是路径。
 //
@@ -23,7 +23,7 @@ import QtQuick.Layouts
 RowLayout {
     id: root
     property url value            // 已认可的路径；打开对话框时拿它当起点
-    property string text          // 显示文字：本机写法的路径，空 = 还没选过
+    property string text: PathDisplay.localPath(value) // 默认显示解码后的本机路径
     property string placeholder   // 还没选过时显示什么
     property bool folder: true    // true = 选文件夹；false = 选文件
     property string title         // 对话框标题

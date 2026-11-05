@@ -56,6 +56,11 @@ TestCase {
             text: "采集·国实双光子、采集·国实CDL5、转台·铭辰机电；长名称在值列内换行。"
         }
     }
+    function test_localPathDisplay() {
+        compare(PathDisplay.localPath("file:///C:/data/%E6%B5%8B%E8%AF%95%20%23%25").replace(/\\/g, "/"), Qt.platform.os === "windows" ? "C:/data/测试 #%" : "/C:/data/测试 #%")
+        compare(PathDisplay.localPath("file://server/share/test%20data").replace(/\\/g, "/"), "//server/share/test data")
+        compare(PathDisplay.localPath(""), "")
+    }
     function test_multilineBoundsAndStyle() {
         const value = scope.children.filter(child => child instanceof Label)[1];
         for (const width of [260, 382, 480]) {

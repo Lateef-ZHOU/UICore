@@ -137,3 +137,8 @@ WorkbenchWindow 按设备/任务名单是否为空显示对应组名。空组不
 ## 路径禁用输入框（2026-11-05）
 
 PathField 的路径显示改用禁用 TextField，保留随主题变化的输入框外观、中间省略、悬停全文和浏览按钮；仅对话框可提交新路径，URL 值和业务持有关系不变。主程序 Windows Release 增量构建、桌面八秒冒烟及四窗口装配检查通过，运行日志无异常；未推送。
+## 本机路径显示（2026-11-05）
+
+PathField 默认从 value 转为本机路径，不展示 file:///。PathDisplay 使用 QUrl::toLocalFile 和 QDir::toNativeSeparators，正确解码中文、空格、百分号和共享路径；URL 仍是业务与对话框的唯一参数。禁用输入框、中间省略、悬停全文和浏览动作保持。
+
+验证：2026-11-05 Windows Qt 6.11.2 / MSVC 增量构建通过；UICore CTest 3/3、ChartCore nonuniform 1/1、主程序八秒桌面冒烟及四窗装配通过。装配检查覆盖三规格、三通道的18张初始风速/CNR图的内部及分段门位悬停。未连接硬件、未推送。
