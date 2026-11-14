@@ -27,3 +27,13 @@ if(WIN32)
         ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_BACKEND=software;QT_QUICK_CONTROLS_STYLE=FluentWinUI3;QT_FORCE_STDERR_LOGGING=1;QT_QPA_FONTDIR=$ENV{WINDIR}/Fonts"
         ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")
 endif()
+
+add_executable(log_utf8 log_utf8.cpp)
+target_link_libraries(log_utf8 PRIVATE Lidar::UICore LidarUICoreplugin)
+if(MSVC)
+    target_compile_options(log_utf8 PRIVATE /W4 /WX /utf-8)
+endif()
+add_test(NAME log_utf8 COMMAND log_utf8)
+set_tests_properties(log_utf8 PROPERTIES TIMEOUT 30
+    ENVIRONMENT "QT_QPA_PLATFORM=offscreen;QT_QUICK_BACKEND=software;QT_FORCE_STDERR_LOGGING=1"
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:$<TARGET_FILE_DIR:Qt6::Core>")

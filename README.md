@@ -1,3 +1,11 @@
+## 2026-11-14：UTF-8 日志接口（用户定）
+
+C++ 日志为 UTF-8 std::string，LogText.h 随现有 UI 类型登记集中注册 std::string 与 QString 的双向转换。既有 QML string 提示、Connections、ModulePage 和 LogSection 继续使用同一日志链；没有新增官邸中继、文本缓存或业务状态。生产日志栏仍在接收时计时、保留最近 50 条。新增 log_utf8 测试覆盖真实日志栏、中文和格式化、工作线程发射后改写/销毁原字符串、QML 回调线程及 UI 调用设备日志信号。
+
+需要支持 C++20 std::format 的标准库。本轮仅本地修改与验证，不推送。
+
+验证：Windows Release 构建通过；CTest 4/4（模块、两种样式和新增 UTF-8 日志）通过。主程序及真实激光/温控页面 QML 测试也通过。证据：build-logstring/Testing/Temporary/LastTest.log、主程序 build/logstring-ui-*.log。
+
 # UICore
 
 基础输入控件、收缩栏、子标签页和带日志的公共页面。Windows / Linux，C++20，CMake ≥ 3.28。

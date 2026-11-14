@@ -1,4 +1,5 @@
 #pragma once
+#include "LogText.h"
 #include <HandleBase.h>
 #include <QtQml/qqmlregistration.h>
 
