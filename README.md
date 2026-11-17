@@ -181,5 +181,5 @@ DoubleButtonRow 的两颗按钮各自持有独立 ToolTip，与路径/下拉框/
 
 ## 2026-11-17：UTF-8 设备名称属性（用户定）
 
-设备 displayName/subtitle 的 std::string 常量属性复用现有 UTF-8 与 QString 转换登记，QML 继续直接读取为 string 或组合显示；不新增 getter、官邸转发或名称缓存。log_utf8 验证同时覆盖名称属性读取、中文/乘号及组合文字；现有日志信号转换不变。验证记录见主程序维护操作；暂不推送。
+设备 displayName/subtitle 的 std::string 常量属性复用现有 UTF-8 与 QString 转换登记。LogText.h 用匿名外部类型登记供 QML 工具识别 std::string，不包装字符串或增加字段；页面在既有 name/subtitle 绑定处用 String(...) 明确转为显示字符串，不新增 getter、官邸转发或名称缓存。log_utf8 验证同时覆盖名称属性读取、显式转换、中文/乘号及组合文字；现有日志信号转换不变。验证记录见主程序维护操作；暂不推送。
 

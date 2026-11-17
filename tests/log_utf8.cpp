@@ -34,6 +34,7 @@ ModulePage {
     required property QtObject source
     property string deviceName: source.displayName
     property string deviceSubtitle: source.subtitle
+    property string explicitName: String(source.displayName)
     property string deviceLabel: source.displayName + " · " + source.subtitle
     property string last: ""
     property int count: 0
@@ -49,6 +50,7 @@ ModulePage {
     if (!page) { qCritical() << component.errors(); return 1; }
     if (page->property("deviceName").toString().toStdString() != source.displayName
         || page->property("deviceSubtitle").toString().toStdString() != source.subtitle
+        || page->property("explicitName").toString().toStdString() != source.displayName
         || page->property("deviceLabel").toString().toStdString() != source.displayName + " · " + source.subtitle) return 7;
     const auto expected = std::format("中文日志：温度 {:.2f} °C，编号 0x{:08x}", 26.5, 42);
     std::thread worker([&] {
