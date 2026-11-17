@@ -178,3 +178,8 @@ DoubleButtonRow 的两颗按钮各自持有独立 ToolTip，与路径/下拉框/
 新增 FormSeparator 和 FormToolTip，统一表单横线、400ms悬停延时与持续显示；各使用方仍独持气泡实例并决定文字和显示条件。分隔线沿用 MenuSeparator 的主题高度与留白，不改组间距。FieldRow 增加标签颜色别名，供任务预览保留原色。
 
 验证：Windows Release 增量构建通过，UICore CTest 3/3通过（含 Basic 与 Fluent 下拉及气泡检查）；本地修改，未推送。
+
+## 2026-11-17：UTF-8 设备名称属性（用户定）
+
+设备 displayName/subtitle 的 std::string 常量属性复用现有 UTF-8 与 QString 转换登记，QML 继续直接读取为 string 或组合显示；不新增 getter、官邸转发或名称缓存。log_utf8 验证同时覆盖名称属性读取、中文/乘号及组合文字；现有日志信号转换不变。验证记录见主程序维护操作；暂不推送。
+

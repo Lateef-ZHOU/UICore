@@ -13,6 +13,11 @@ Q_IMPORT_QML_PLUGIN(LidarUIPlugin)
 class Source final : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(std::string displayName MEMBER displayName CONSTANT)
+    Q_PROPERTY(std::string subtitle MEMBER subtitle CONSTANT)
+public:
+    const std::string displayName = "设备·中文";
+    const std::string subtitle = "规格 × 2";
 Q_SIGNALS:
     void logMessage(const std::string &text);
 };
@@ -27,6 +32,9 @@ import Lidar.UI
 ModulePage {
     id: root
     required property QtObject source
+    property string deviceName: source.displayName
+    property string deviceSubtitle: source.subtitle
+    property string deviceLabel: source.displayName + " · " + source.subtitle
     property string last: ""
     property int count: 0
     property Connections connection: Connections {
@@ -39,6 +47,9 @@ ModulePage {
     Source source;
     std::unique_ptr<QObject> page(component.createWithInitialProperties({{"source", QVariant::fromValue(&source)}}));
     if (!page) { qCritical() << component.errors(); return 1; }
+    if (page->property("deviceName").toString().toStdString() != source.displayName
+        || page->property("deviceSubtitle").toString().toStdString() != source.subtitle
+        || page->property("deviceLabel").toString().toStdString() != source.displayName + " · " + source.subtitle) return 7;
     const auto expected = std::format("中文日志：温度 {:.2f} °C，编号 0x{:08x}", 26.5, 42);
     std::thread worker([&] {
         auto message = expected;
@@ -63,7 +74,7 @@ ModulePage {
         if (text.contains(QString::fromStdString(expected)) && text.contains(QString::fromUtf8("界面输入：温度 28 °C"))) displayed = true;
     }
     if (!displayed) return 6;
-    qInfo("UTF-8 queued ownership, format, QML conversion and production LogSection passed");
+    qInfo("UTF-8 identity properties, queued ownership, format, QML conversion and production LogSection passed");
     return 0;
 }
 #include "log_utf8.moc"

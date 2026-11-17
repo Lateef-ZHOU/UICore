@@ -4,8 +4,8 @@
 #include <QString>
 #include <string>
 
-// 随 Lidar.UI 类型登记初始化一次；设备/任务信号保持 UTF-8 std::string，
-// QML 的 string 参数只在此显示边界转换。无官邸包装信号或文本缓存。
+// 随 Lidar.UI 类型登记初始化一次；设备名称属性与设备/任务日志使用 UTF-8 std::string，
+// QML 的 string 属性和参数在此显示边界转换。无官邸包装信号或文本缓存。
 inline const bool logTextRegistered = []()
 {
     const bool registered = QMetaType::registerConverter<std::string, QString>(
